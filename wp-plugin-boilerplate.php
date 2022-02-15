@@ -9,23 +9,25 @@
  * Author URI:  https://www.linkedin.com/in/farhanmaba/
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: plugin-boilerplate
+ * Text Domain: wp-plugin-boilerplate
  */
 
 if ( ! defined( 'ABSPATH' ) ) { // Security: Abort if this file is called directly
 	die;
 }
 
-define( 'DIR_PATH', plugin_dir_path( __FILE__ ) ); // Define Dirpath for hooks
+define( 'DIR_PATH', plugin_dir_path( __FILE__ ) ); // Define DIR_PATH for all the hooks
 
 if ( ! class_exists( 'WpPluginBoilerplate' ) ) {
 	class WpPluginBoilerplate {
+
 		/**
 		 * Constructor
 		 */
 		public function __construct() {
 			$this->setup_actions();
 		}
+
 		/**
 		 * Setting up Hooks
 		 */
@@ -34,11 +36,13 @@ if ( ! class_exists( 'WpPluginBoilerplate' ) ) {
 			register_activation_hook( DIR_PATH, array( 'WpPluginBoilerplate', 'activate' ) );
 			register_deactivation_hook( DIR_PATH, array( 'WpPluginBoilerplate', 'deactivate' ) );
 		}
+
 		/**
 		 * Activate callback
 		 */
 		public static function activate() {
-			//Activation code in here
+			require_once DIR_PATH . 'includes/class-plugin-boilerplate-activator.php';
+			Plugin_Boilerplate_Activator::activate();
 		}
 
 		/**
@@ -46,10 +50,10 @@ if ( ! class_exists( 'WpPluginBoilerplate' ) ) {
 		 *
 		 */
 		public static function deactivate() {
-			//Deactivation code in here
+			require_once DIR_PATH . 'includes/class-plugin-boilerplate-deactivator.php';
+			Plugin_Boilerplate_Deactivator::deactivate();
 		}
 	}
 
-	// instantiate the plugin class
-	$wp_plugin_template = new WpPluginBoilerplate();
+	$wp_plugin_template = new WpPluginBoilerplate(); // instantiate the plugin class
 }
